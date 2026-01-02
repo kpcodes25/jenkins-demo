@@ -1,17 +1,31 @@
 pipeline {
     agent any
 
+    tools {
+        gradle 'gradle'
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Checking out code from GitHub'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Gradle Build') {
             steps {
-                echo 'This is a simple CI build'
+                bat 'gradlew clean build'
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build SUCCESS'
+        }
+        failure {
+            echo '❌ Build FAILED'
         }
     }
 }
