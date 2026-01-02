@@ -1,6 +1,6 @@
 # jenkins-demo
 
-# Jenkins CI/CD Setup (Beginner Friendly)
+# Jenkins CI/CD Setup (Beginner Friendly) -- manual
 
 This repository documents how to install Jenkins on Windows
 and create a simple CI pipeline using GitHub.
@@ -142,4 +142,82 @@ Jenkins installed on Windows
 GitHub integrated
 
 CI pipeline executed successfully
+
+------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+
+Jenkins CI Pipeline with GitHub Webhook & Gradle
+
+Tech Stack
+
+Jenkins – CI server
+
+GitHub – Source code management
+
+Gradle (Gradle Wrapper) – Build automation
+
+ngrok – Expose local Jenkins to GitHub Webhooks
+
+Windows OS
+
+------------------------
+CI Workflow
+
+Developer pushes code to the GitHub repository
+
+GitHub Webhook sends a POST request to Jenkins
+
+Jenkins detects the change and starts the pipeline
+
+Jenkins pulls the latest code
+
+Build runs using Gradle Wrapper (gradlew)
+
+Build status is displayed in Jenkins
+
+--------------------------------------------
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build with Gradle') {
+            steps {
+                bat 'gradlew clean build'
+            }
+        }
+    }
+}
+--------------------
+
+> start jenkins
+http://localhost:8081
+
+
+> Start ngrok
+
+> for the first time the authenticated token need to be added 
+
+ngrok config add-authtoken 2xYpABCDEF1234567890
+
+ngrok http 8081
+
+
+--------------------------
+GitHub Webhook Configuration
+Payload URL
+https://<ngrok-url>/github-webhook/
+
+Content type: application/json
+
+Events: Push events
+
+ngrok is used to expose the locally running Jenkins instance to GitHub.
+
    
